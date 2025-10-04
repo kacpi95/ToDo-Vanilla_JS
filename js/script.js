@@ -7,6 +7,7 @@ const popup = document.querySelector('.popup-container');
 const popupInput = document.querySelector('.popup-input-text');
 const btnAddPopup = document.querySelector('.add');
 const btnClosePopup = document.querySelector('.cancel');
+const counter = document.querySelector('.counter');
 
 let editToDo;
 let notes = [];
@@ -34,6 +35,7 @@ const addNewNote = () => {
     notes.push(listNotes);
     createNote(listNotes);
     saveNote();
+    counterSum();
 
     addInput.value = '';
     errorInfo.textContent = '';
@@ -73,13 +75,21 @@ const createNotesStorage = (el) => {
 
 const checkMethod = (e) => {
   if (e.target.matches('.complete')) {
-    e.target.closest('li').classList.toggle('completed');
+    const li = e.target.closest('li');
+    li.classList.toggle('completed');
     e.target.classList.toggle('completed');
+
+    const index = Array.from(ulList.children).indexOf(li);
+    if (index > -1) {
+      notes[index].completed = li.classList.contains('completed');
+      saveNote();
+    }
   } else if (e.target.matches('.edit')) {
     editFunction(e);
   } else if (e.target.matches('.delete')) {
     deleteFunction(e);
   }
+  counterSum();
 };
 
 const editFunction = (e) => {
@@ -95,6 +105,7 @@ const deleteFunction = (e) => {
   notes.splice(index, 1);
   saveNote();
   li.remove();
+  counterSum();
 };
 
 const closePopup = () => {
@@ -111,6 +122,11 @@ const changeTextPopup = () => {
   } else {
     errorInfo.textContent = 'Wpisz treść';
   }
+};
+const counterSum = () => {
+  const sum = notes.length;
+  const total = notes.filter((el) => el.completed).length;
+  counter.textContent = `${sum} zadań / ${total} ukończone`;
 };
 
 btnAdd.addEventListener('click', addNewNote);

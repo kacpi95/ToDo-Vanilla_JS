@@ -205,3 +205,13 @@ body {
 .btn-popup.cancel:hover {
   background: #f55252;
 }
+.counter {
+  position: absolute;
+  bottom: 100px;
+  font-size: 2rem;
+}
+
+button.complete i,
+button.delete i {
+  pointer-events: none;
+}
