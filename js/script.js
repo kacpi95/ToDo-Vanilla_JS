@@ -8,15 +8,32 @@ const popupInput = document.querySelector('.popup-input-text');
 const btnAddPopup = document.querySelector('.add');
 const btnClosePopup = document.querySelector('.cancel');
 
-let editToDO;
+let editToDo;
+let notes = [];
+
+document.addEventListener('DOMContentLoaded', () => {
+  const savedNotes = JSON.parse(localStorage.getItem('notes')) || [];
+  notes = savedNotes;
+  notes.forEach((el) => {
+    createNotesStorage(el);
+  });
+});
+
+const saveNote = () => {
+  localStorage.setItem('notes', JSON.stringify(notes));
+};
 
 const addNewNote = () => {
   if (addInput.value !== '') {
-    newTodo = document.createElement('li');
-    newTodo.textContent = addInput.value;
-
-    ulList.append(newTodo);
-    createNote();
+    const listNotes = {
+      id: Date.now(),
+      text: addInput.value,
+      completed: false,
+      date: new Date(),
+    };
+    notes.push(listNotes);
+    createNote(listNotes);
+    saveNote();
 
     addInput.value = '';
     errorInfo.textContent = '';
@@ -25,10 +42,14 @@ const addNewNote = () => {
   }
 };
 
-const createNote = () => {
+const createNote = (listNotes) => {
+  const newNote = document.createElement('li');
+  newNote.textContent = listNotes.text;
+  if (listNotes.completed) newNote.classList.add('completed');
+  ulList.append(newNote);
+
   const containerNote = document.createElement('div');
   containerNote.classList.add('containerNote');
-  newTodo.append(containerNote);
 
   const completeBtn = document.createElement('button');
   completeBtn.classList.add('complete');
@@ -43,6 +64,11 @@ const createNote = () => {
   deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
 
   containerNote.append(completeBtn, editBtn, deleteBtn);
+  newNote.append(containerNote);
+};
+
+const createNotesStorage = (el) => {
+  createNote(el);
 };
 
 const checkMethod = (e) => {
@@ -57,13 +83,18 @@ const checkMethod = (e) => {
 };
 
 const editFunction = (e) => {
-  editToDO = e.target.closest('li');
-  popupInput.value = editToDO.firstChild.textContent;
+  editToDo = e.target.closest('li');
+  popupInput.value = editToDo.firstChild.textContent;
   popup.style.display = 'block';
 };
 
 const deleteFunction = (e) => {
-  e.target.closest('li').remove();
+  const li = e.target.closest('li');
+  const index = Array.from(ulList.children).indexOf(li);
+
+  notes.splice(index, 1);
+  saveNote();
+  li.remove();
 };
 
 const closePopup = () => {
@@ -72,7 +103,10 @@ const closePopup = () => {
 
 const changeTextPopup = () => {
   if (popupInput.value !== '') {
-    editToDO.firstChild.textContent = popupInput.value;
+    const index = Array.from(ulList.children).indexOf(editToDo);
+    notes[index].text = popupInput.value;
+    saveNote();
+    editToDo.firstChild.textContent = popupInput.value;
     popup.style.display = 'none';
   } else {
     errorInfo.textContent = 'Wpisz treść';
