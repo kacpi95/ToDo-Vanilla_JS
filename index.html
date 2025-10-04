@@ -11,6 +11,35 @@
     <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
+    <div class="container">
+      <header class="header"><h1>ToDo List</h1></header>
+      <div class="section-add">
+        <input
+          type="text"
+          class="add-input"
+          placeholder="Wpisz treść zadania"
+        />
+        <button class="btn-add">Dodaj</button>
+      </div>
+      <div class="section-list">
+        <h2>Lista zadań</h2>
+        <p class="error-info">error</p>
+      </div>
+    </div>
+    <section class="popup-container">
+      <h3>Edytuj zadanie:</h3>
+      <div class="popup-input">
+        <input
+          type="text"
+          class="popup-input-text"
+          placeholder="Edytuj treść zadania"
+        />
+      </div>
+      <div class="btns-popup">
+        <button class="btn-popup add">Zatwieedź</button>
+        <button class="btn-popup cancel">Anuluj</button>
+      </div>
+    </section>
     <script src="./js/script.js"></script>
   </body>
 </html>
