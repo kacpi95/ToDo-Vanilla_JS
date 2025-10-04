@@ -8,7 +8,7 @@
   --primary-color: #6b3f69;
   --secondary-color: #a376a2;
   --background-color: #e0dae4;
-  --color-error: rgb(255, 67, 67);
+  --color-error: tomato;
   --color-btn-accept: #2aa346;
 }
 
@@ -84,6 +84,52 @@ body {
   text-align: center;
   font-size: 1.2rem;
   font-weight: bold;
+  color: var(--color-error);
+}
+.ul-list {
+  list-style: none;
+  margin-top: 1rem;
+}
+.ul-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  background: #ddd;
+}
+
+.containerNote {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.containerNote button {
+  padding: 0.4rem 0.6rem;
+  border-radius: 0.4rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border: none;
+  transition: background 0.3s;
+}
+
+.containerNote button:hover {
+  background-color: #fff;
+}
+
+.complete {
+  color: var(--color-btn-accept);
+}
+
+.edit {
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.delete {
   color: var(--color-error);
 }
 
